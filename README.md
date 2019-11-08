@@ -1,9 +1,8 @@
 <a href="#top" id="top">
-  <img src="https://user-images.githubusercontent.com/441546/63547048-1c6af200-c4e0-11e9-916f-d2b9d4348af3.png" style="max-width: 100%;">
-  <br><br>
+  <img src="https://user-images.githubusercontent.com/441546/68451993-d6036600-01a5-11ea-89cb-61811521229e.png" style="max-width: 100%;">
 </a>
 
-This is a template repository for [`@darkobits/ts-unified`](https://github.com/darkobits/ts-unified). To create a new repository using this one as a template, click the "Use this template" button at the top of this page.
+...
 
 ## &nbsp;
 <p align="center">
