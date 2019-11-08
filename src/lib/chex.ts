@@ -9,8 +9,8 @@ import parseDependencyExpression from 'lib/parse-version-expression';
  */
 export interface BoundExeca {
   version: string;
-  (command: string | ReadonlyArray<string>, options?: execa.Options): execa.ExecaChildProcess<string>;
-  sync(command: string | ReadonlyArray<string>, options?: execa.SyncOptions): execa.ExecaSyncReturnValue<string>;
+  (command: string | ReadonlyArray<string>, options?: execa.Options): execa.ExecaChildProcess;
+  sync(command: string | ReadonlyArray<string>, options?: execa.SyncOptions): execa.ExecaSyncReturnValue;
 }
 
 
