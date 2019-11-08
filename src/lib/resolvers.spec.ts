@@ -25,10 +25,10 @@ describe('resolvers', () => {
 
   describe('loose', () => {
     it('should generally speaking, be a good sport', () => {
-      expect(loose('1.02.03')).toBe('1.02.03');
-      expect(loose('v1.02.03')).toBe('1.02.03');
-      expect(loose('version 1.02.03')).toBe('1.02.03');
-      expect(loose('Tool 1.02.03')).toBe('1.02.03');
+      expect(loose('1.02.03')).toBe('1.2.3');
+      expect(loose('v1.02.03')).toBe('1.2.3');
+      expect(loose('version 1.02.03')).toBe('1.2.3');
+      expect(loose('Tool 1.02.03')).toBe('1.2.3');
       expect(loose('Tool 30.1')).toBe('30.1.0');
       expect(loose('Tool 1.2.3_beta5')).toBe('1.2.3');
     });

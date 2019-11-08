@@ -1,4 +1,5 @@
 import findVersions from 'find-versions';
+import semver from 'semver';
 
 
 /**
@@ -8,6 +9,10 @@ import findVersions from 'find-versions';
  * order.
  */
 export default [
-  (version: string) => findVersions(version)[0],
-  (version: string) => findVersions(version, {loose: true})[0]
+  (version: string) => {
+    return findVersions(version)[0];
+  },
+  (version: string) => {
+    return semver.clean(findVersions(version, {loose: true})[0], {loose: true});
+  }
 ];

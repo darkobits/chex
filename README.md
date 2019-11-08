@@ -86,7 +86,7 @@ export default async function main() {
   const docker = await chex('docker');
 
   console.log(`Using Docker version: ${docker.version}`);
-  //=> 'Using Docker version: 19.03.4'
+  //=> 'Using Docker version: 19.3.4'
 
   const images = await docker('images ls');
   console.log(images.stdout);
@@ -98,42 +98,27 @@ export default async function main() {
 Chex exports an async function with the following signature:
 
 ```ts
-chex(executableExpression: string): Promise<ExecaWrapper>;
+(executableExpression: string): Promise<ExecaWrapper>;
 ```
 
-`ExecaWrapper` is a function with the following signature:
+`ExecaWrapper` is a function with the following signature and properties:
 
-```
-(commandOrArgs: string | Array<string>, execaOptions?: ExecaOptions): ExecaChildProcess;
-```
-
-This function also has the following properties:
-
-```
-sync(commandOrArgs: string | Array<string>, execaOptions?: ExecaOptions): ExecaSyncReturnValue;
-version: string;
+```ts
+interface ExecaWrapper {
+  (commandOrArgs: string | Array<string>, execaOptions?: ExecaOptions): ExecaChildProcess;
+  sync(commandOrArgs: string | Array<string>, execaOptions?: ExecaOptions): ExecaSyncReturnValue;
+  version: string;
+}
 ```
 
 ## Caveats
 
-Some tools make the process of determining their version exceedingly difficult,
-and others fail to follow the semver scheme. In these cases, Chex will still
-work when provided an executable's name (and will still throw if it can't be
-found) but will throw an error if a semver range was provided, because in these
-cases Chex cannot guarantee the executable's version satisfies the provided
-criteria.
-
-For example, Docker, a common containerization tool, does not follow semver. If
-we have Docker CE `19.03.4` installed, the following code would throw an error:
-
-```ts
-await chex('docker >=19.0.0')
-```
-
-```
-Error: Version "19.03.4" of "docker" is not a valid semver version. Please refer the authors of this
-software to https://semver.org.
-```
+Some tools make the process of determining their version exceedingly difficult.
+If Chex is unable to determine the version of an executable _and_ you provided a
+semver range, Chex will throw an error because it is unable to guarantee that
+the version of the executable satisfies your criteria. For these executables,
+you can omit a version criteria and Chex will still throw if the executable is
+not found.
 
 ## &nbsp;
 <p align="center">
