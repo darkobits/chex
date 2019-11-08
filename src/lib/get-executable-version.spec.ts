@@ -17,12 +17,12 @@ describe('getExecutableVersion', () => {
     },
     {
       'name': 'c',
-      '-v': '1.0.2',
+      '-v': 'Cee v1.0.2 build 28',
       'stream': 'stdout'
     },
     {
       'name': 'd',
-      '-v': '1.0.3',
+      '-v': '1.04.3 and was built yesterday',
       'stream': 'stderr'
     },
     {
@@ -37,7 +37,6 @@ describe('getExecutableVersion', () => {
     },
     {
       name: 'g',
-      // version: '1.0.5',
       stream: 'stdout'
     },
 
@@ -74,14 +73,18 @@ describe('getExecutableVersion', () => {
     describe('and writes to stdout', () => {
       it('should return the version', async () => {
         const result = await getExecutableVersion('a');
-        expect(result).toBe('1.0.0');
+        expect(result).toMatchObject({
+          version: '1.0.0'
+        });
       });
     });
 
     describe('and writes to stderr', () => {
       it('should return the version', async () => {
         const result = await getExecutableVersion('b');
-        expect(result).toBe('1.0.1');
+        expect(result).toMatchObject({
+          version: '1.0.1'
+        });
       });
     });
   });
@@ -90,14 +93,20 @@ describe('getExecutableVersion', () => {
     describe('and writes to stdout', () => {
       it('should return the version', async () => {
         const result = await getExecutableVersion('c');
-        expect(result).toBe('1.0.2');
+        expect(result).toMatchObject({
+          version: '1.0.2',
+          rawVersion: 'Cee v1.0.2 build 28'
+        });
       });
     });
 
     describe('and writes to stderr', () => {
       it('should return the version', async () => {
         const result = await getExecutableVersion('d');
-        expect(result).toBe('1.0.3');
+        expect(result).toMatchObject({
+          version: '1.4.3',
+          rawVersion: '1.04.3 and was built yesterday'
+        });
       });
     });
   });
@@ -106,14 +115,18 @@ describe('getExecutableVersion', () => {
     describe('and writes to stdout', () => {
       it('should return the version', async () => {
         const result = await getExecutableVersion('e');
-        expect(result).toBe('1.0.4');
+        expect(result).toMatchObject({
+          version: '1.0.4'
+        });
       });
     });
 
     describe('and writes to stderr', () => {
       it('should return the version', async () => {
         const result = await getExecutableVersion('f');
-        expect(result).toBe('1.0.5');
+        expect(result).toMatchObject({
+          version: '1.0.5'
+        });
       });
     });
   });
@@ -121,7 +134,10 @@ describe('getExecutableVersion', () => {
   describe('when the executable does not support any known version flags', () => {
     it('should return "unknown"', async () => {
       const result = await getExecutableVersion('g');
-      expect(result).toBe('unknown');
+      expect(result).toMatchObject({
+        version: 'unknown',
+        rawVersion: 'unknown'
+      });
     });
   });
 

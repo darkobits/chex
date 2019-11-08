@@ -76,20 +76,20 @@ export default async function main() {
 
 **But wait, there's more!**
 
-Chex will also attach a `version` property to the value it returns, which you
-can use for debugging/reporting:
+Chex will also attach `version` and 'rawVersion` properties to the value it
+returns, which you can use for debugging/reporting:
 
 ```ts
 import chex from '@darkobits/chex';
 
 export default async function main() {
-  const docker = await chex('docker');
+  const docker = await chex('docker >=19');
 
-  console.log(`Using Docker version: ${docker.version}`);
-  //=> 'Using Docker version: 19.3.4'
+  console.log(docker.version);
+  //=> '19.3.4'
 
-  const images = await docker('images ls');
-  console.log(images.stdout);
+  console.log(docker.rawVersion);
+  //=> 'Docker version 19.03.4, build 9013bf5'
 }
 ```
 
@@ -105,9 +105,25 @@ Chex exports an async function with the following signature:
 
 ```ts
 interface ExecaWrapper {
+  /**
+   * Call the bound executable asynchronously.
+   */
   (commandOrArgs: string | Array<string>, execaOptions?: ExecaOptions): ExecaChildProcess;
+
+  /**
+   * Call the bound executable synchronously.
+   */
   sync(commandOrArgs: string | Array<string>, execaOptions?: ExecaOptions): ExecaSyncReturnValue;
+
+  /**
+   * Parsed/cleaned semver version.
+   */
   version: string;
+
+  /**
+   * Raw string received from the executable.
+   */
+  rawVersion: string;
 }
 ```
 

@@ -19,20 +19,20 @@ export default async function getExecutableVersion(name: string) {
 
       // Attempt to read from various output streams, in order.
       for (const stream of outputStreams) {
-        const streamData = result[stream];
+        const rawVersion = result[stream];
 
         // If we didn't get anything on this stream, try the next one.
-        if (!streamData) {
+        if (!rawVersion) {
           continue;
         }
 
         // Attempt to parse version string with various parsers, in order.
         for (const versionExtractor of versionExtractors) {
-          const version = versionExtractor(streamData);
+          const version = versionExtractor(rawVersion);
 
           // If we got something, return early.
           if (version) {
-            return version;
+            return {version, rawVersion};
           }
         }
       }
@@ -47,5 +47,8 @@ export default async function getExecutableVersion(name: string) {
     }
   }
 
-  return 'unknown';
+  return {
+    version: 'unknown',
+    rawVersion: 'unknown'
+  };
 }

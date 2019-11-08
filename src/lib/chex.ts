@@ -5,26 +5,45 @@ import parseDependencyExpression from 'lib/parse-version-expression';
 
 
 /**
- * Value returned from getExe.
+ * Value returned by Chex.
  */
-export interface BoundExeca {
-  version: string;
+export interface ExecaWrapper {
+  /**
+   * Call the bound executable asynchronously.
+   */
   (command: string | ReadonlyArray<string>, options?: execa.Options): execa.ExecaChildProcess;
+
+  /**
+   * Call the bound executable synchronously.
+   */
   sync(command: string | ReadonlyArray<string>, options?: execa.SyncOptions): execa.ExecaSyncReturnValue;
+
+  /**
+   * Parsed/cleaned semver version of the executable.
+   */
+  version: string;
+
+  /**
+   * Raw string received from the executable.
+   */
+  rawVersion: string;
 }
 
 
 /**
  * Verifies that the provided executable is installed and available in our PATH.
  */
-export default async function getExecutable(dependencyExpression: string) {
+export default async function chex(dependencyExpression: string): Promise<ExecaWrapper> {
   const {name, versionRange} = parseDependencyExpression(dependencyExpression);
 
-  let version: string;
+  let version = '';
+  let rawVersion = '';
 
   try {
     // This will throw if the dependency doesn't exist.
-    version = await getDependencyVersion(name);
+    const versionResults = await getDependencyVersion(name);
+    version = versionResults.version;
+    rawVersion = versionResults.rawVersion;
   } catch (err) {
     throw new Error(`Executable "${name}" could not be found.`);
   }
@@ -48,7 +67,7 @@ export default async function getExecutable(dependencyExpression: string) {
   }
 
   // Return a function bound to the executable.
-  const boundExeca = (commandStringOrArgumentsArray: string | Array<string>, execaOpts?: execa.Options) => {
+  const execaWrapper = (commandStringOrArgumentsArray: string | Array<string>, execaOpts?: execa.Options) => {
     if (typeof commandStringOrArgumentsArray === 'string') {
       return execa.command(`${name} ${commandStringOrArgumentsArray}`, execaOpts);
     }
@@ -57,7 +76,7 @@ export default async function getExecutable(dependencyExpression: string) {
   };
 
   // Support sync calls.
-  boundExeca.sync = (commandStringOrArgumentsArray: string | Array<string>, execaOpts?: execa.SyncOptions) => {
+  execaWrapper.sync = (commandStringOrArgumentsArray: string | Array<string>, execaOpts?: execa.SyncOptions) => {
     if (typeof commandStringOrArgumentsArray === 'string') {
       return execa.commandSync(`${name} ${commandStringOrArgumentsArray}`, execaOpts);
     }
@@ -66,7 +85,8 @@ export default async function getExecutable(dependencyExpression: string) {
   };
 
   // Attach the resolved executable version to our function.
-  boundExeca.version = version;
+  execaWrapper.version = version;
+  execaWrapper.rawVersion = rawVersion;
 
-  return boundExeca as BoundExeca;
+  return execaWrapper;
 }
