@@ -13,7 +13,7 @@ If you use [execa](https://github.com/sindresorhus/execa) in your application to
 integrate with other executables, this tool provides a way to:
 
 1. Verify that an executable is installed and fail fast if is isn't and/or:
-2. Ensure that a particular version is installed and fail fast if it isn't
+2. Ensure that a particular version is installed and fail fast if it isn't.
 
 ## Install
 
@@ -86,17 +86,42 @@ export default async function main() {
   const docker = await chex('docker');
 
   console.log(`Using Docker version: ${docker.version}`);
-  // 'Using Docker version: 19.03.4'
+  //=> 'Using Docker version: 19.03.4'
+
+  const images = await docker('images ls');
+  console.log(images.stdout);
 }
+```
+
+## API
+
+Chex exports an async function with the following signature:
+
+```ts
+chex(executableExpression: string): Promise<ExecaWrapper>;
+```
+
+`ExecaWrapper` is a function with the following signature:
+
+```
+(commandOrArgs: string | Array<string>, execaOptions?: ExecaOptions): ExecaChildProcess;
+```
+
+This function also has the following properties:
+
+```
+sync(commandOrArgs: string | Array<string>, execaOptions?: ExecaOptions): ExecaSyncReturnValue;
+version: string;
 ```
 
 ## Caveats
 
-Some tools make determining their version exceedingly difficult, and others fail
-to follow semver. In these cases, Chex will still work when provided an
-executable's name (and will still throw if it can't be found) but will throw an
-error if a semver range was provided, as it cannot guarantee the executable's
-version.
+Some tools make the process of determining their version exceedingly difficult,
+and others fail to follow the semver scheme. In these cases, Chex will still
+work when provided an executable's name (and will still throw if it can't be
+found) but will throw an error if a semver range was provided, because in these
+cases Chex cannot guarantee the executable's version satisfies the provided
+criteria.
 
 For example, Docker, a common containerization tool, does not follow semver. If
 we have Docker CE `19.03.4` installed, the following code would throw an error:

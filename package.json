@@ -6,7 +6,7 @@
   "author": "darkobits",
   "repository": {
     "type": "git",
-    "url": "__PROJECT-REPOSITORY-URL-HERE__"
+    "url": "git+https://github.com/darkobits/chex.git"
   },
   "files": [
     "dist"
