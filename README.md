@@ -76,7 +76,7 @@ export default async function main() {
 
 **But wait, there's more!**
 
-Chex will also attach `version` and 'rawVersion` properties to the value it
+Chex will also attach `version` and `rawVersion` properties to the value it
 returns, which you can use for debugging/reporting:
 
 ```ts
