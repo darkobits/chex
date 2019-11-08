@@ -7,18 +7,19 @@ import semver from 'semver';
  * if present. If the range is invalid, an error is thrown.
  */
 export default function parseVersionExpression(versionExpression: string) {
-  const [name, versionRange] = versionExpression.split(' ');
+  const [rawName, versionRange] = versionExpression.split(' ');
+  const name = rawName.toLowerCase();
 
   if (versionRange) {
     if (semver.validRange(versionRange)) {
-      return {
-        name: name.toLowerCase(),
-        versionRange
-      };
+      // Valid range provided.
+      return {name, versionRange};
     }
 
+    // Invalid range provided.
     throw new Error(`Invalid semver range: ${versionRange}`);
   }
 
-  return {name};
+  // No range provided.
+  return {name, versionRange: ''};
 }
