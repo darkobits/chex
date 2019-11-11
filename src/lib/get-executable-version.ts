@@ -1,6 +1,69 @@
 import execa from 'execa';
-import {versionFlags, outputStreams} from 'etc/constants';
-import versionExtractors from 'lib/resolvers';
+import findVersions from 'find-versions';
+import semver from 'semver';
+
+
+/**
+ * Supported flags.
+ */
+const versionFlags = ['--version', '-v', 'version'];
+
+
+/**
+ * Default return value when an executable's version cannot be determined.
+ */
+const unknownVersionResult = {version: 'unknown', rawVersion: 'unknown'};
+
+
+/**
+ * Normalizes executable names.
+ */
+function normalizeName(name: string) {
+  return name.toLocaleLowerCase();
+}
+
+
+/**
+ * Attempt to read from various output streams, in order.
+ */
+function parseVersionResult(result: execa.ExecaReturnBase<string>) {
+  // Attempt to read from various output streams, in order.
+  for (const stream of ['stdout', 'stderr'] as Array<'stdout' | 'stderr'>) {
+    const rawVersion = result[stream];
+
+    // If we didn't get anything on this stream, try the next one.
+    if (!rawVersion) {
+      continue;
+    }
+
+    const strictVersion = findVersions(rawVersion)[0];
+
+    if (strictVersion) {
+      return {version: strictVersion, rawVersion};
+    }
+
+    const looseVersion = semver.clean(findVersions(rawVersion, {loose: true})[0], {loose: true});
+
+    if (looseVersion) {
+      return {version: looseVersion, rawVersion};
+    }
+  }
+}
+
+
+/**
+ * Provided an error thrown by Execa, re-throws if the error indicates that the
+ * executable in the original command could not be found.
+ */
+function handleError(err: any) {
+  // Executable does not exist or is otherwise not installed correctly.
+  if (err && err.errno === 'ENOENT') {
+    throw err;
+  }
+
+  // For any other error, we can assume the version flag is not supported,
+  // so we can recover.
+}
 
 
 /**
@@ -9,46 +72,41 @@ import versionExtractors from 'lib/resolvers';
  * could not be determined, resolves with the string 'unknown'. If the
  * executable does not exist on the system, an error will be thrown.
  */
-export default async function getExecutableVersion(name: string) {
-  const normalizedName = name.toLocaleLowerCase();
-
-  // Attempt various version flags, in order.
+async function getExecutableVersion(name: string) {
   for (const flag of versionFlags) {
     try {
-      const result = await execa.command(`${normalizedName} ${flag}`);
+      const version = parseVersionResult(await execa.command(`${normalizeName(name)} ${flag}`));
 
-      // Attempt to read from various output streams, in order.
-      for (const stream of outputStreams) {
-        const rawVersion = result[stream];
-
-        // If we didn't get anything on this stream, try the next one.
-        if (!rawVersion) {
-          continue;
-        }
-
-        // Attempt to parse version string with various parsers, in order.
-        for (const versionExtractor of versionExtractors) {
-          const version = versionExtractor(rawVersion);
-
-          // If we got something, return early.
-          if (version) {
-            return {version, rawVersion};
-          }
-        }
+      if (version) {
+        return version;
       }
     } catch (err) {
-      // Executable does not exist or is otherwise not installed correctly.
-      if (err && err.errno === 'ENOENT') {
-        throw err;
-      }
-
-      // For any other error, we can assume the version flag is not supported,
-      // so we can recover and keep looping.
+      handleError(err);
     }
   }
 
-  return {
-    version: 'unknown',
-    rawVersion: 'unknown'
-  };
+  return unknownVersionResult;
 }
+
+
+/**
+ * Synchronous version of the above.
+ */
+getExecutableVersion.sync = (name: string) => {
+  for (const flag of versionFlags) {
+    try {
+      const version = parseVersionResult(execa.commandSync(`${normalizeName(name)} ${flag}`));
+
+      if (version) {
+        return version;
+      }
+    } catch (err) {
+      handleError(err);
+    }
+  }
+
+  return unknownVersionResult;
+};
+
+
+export default getExecutableVersion;

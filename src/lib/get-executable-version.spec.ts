@@ -22,7 +22,7 @@ describe('getExecutableVersion', () => {
     },
     {
       'name': 'd',
-      '-v': '1.04.3 and was built yesterday',
+      '-v': '1.04.3 and some other garbage',
       'stream': 'stderr'
     },
     {
@@ -105,7 +105,7 @@ describe('getExecutableVersion', () => {
         const result = await getExecutableVersion('d');
         expect(result).toMatchObject({
           version: '1.4.3',
-          rawVersion: '1.04.3 and was built yesterday'
+          rawVersion: '1.04.3 and some other garbage'
         });
       });
     });

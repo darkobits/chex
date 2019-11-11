@@ -1,7 +1,30 @@
 import execa from 'execa';
 import semver from 'semver';
 import getDependencyVersion from 'lib/get-executable-version';
-import parseDependencyExpression from 'lib/parse-version-expression';
+
+
+/**
+ * Provided a version expression with an executable name and optional semver
+ * range, returns an object with the executable's name and the version range,
+ * if present. If the range is invalid, an error is thrown.
+ */
+function parseDependencyExpression(versionExpression: string) {
+  const [rawName, versionRange] = versionExpression.split(' ');
+  const name = rawName.toLowerCase();
+
+  if (versionRange) {
+    if (semver.validRange(versionRange)) {
+      // Valid range provided.
+      return {name, versionRange};
+    }
+
+    // Invalid range provided.
+    throw new Error(`Invalid semver range: ${versionRange}`);
+  }
+
+  // No range provided.
+  return {name, versionRange: ''};
+}
 
 
 /**
@@ -19,54 +42,39 @@ export interface ExecaWrapper {
   sync(command: string | ReadonlyArray<string>, options?: execa.SyncOptions): execa.ExecaSyncReturnValue;
 
   /**
-   * Parsed/cleaned semver version of the executable.
+   * Parsed semver version of the executable.
    */
   version: string;
 
   /**
-   * Raw string received from the executable.
+   * Raw version reported by the executable.
    */
   rawVersion: string;
 }
 
 
 /**
- * Verifies that the provided executable is installed and available in our PATH.
+ * Logic common to the asynchronous and synchronous versions of Chex.
  */
-export default async function chex(dependencyExpression: string): Promise<ExecaWrapper> {
-  const {name, versionRange} = parseDependencyExpression(dependencyExpression);
-
-  let version = '';
-  let rawVersion = '';
-
-  try {
-    // This will throw if the dependency doesn't exist.
-    const versionResults = await getDependencyVersion(name);
-    version = versionResults.version;
-    rawVersion = versionResults.rawVersion;
-  } catch (err) {
-    throw new Error(`Executable "${name}" could not be found.`);
-  }
-
+function chexCommon(name: string, versionRange: string, version: string, rawVersion: string): ExecaWrapper {
   // If the user supplied a version range and we couldn't determine the version
   // of the executable, throw.
   if (versionRange && version === 'unknown') {
-    throw new Error(`Unable to determine installed version of "${name}"`);
+    throw new Error(`Unable to determine version of "${name}"`);
   }
 
   // If the user supplied a version range but the executable returned an invalid
   // semver version, throw.
   if (versionRange && !semver.valid(version)) {
-    throw new Error(`Version "${version}" of "${name}" is not a valid semver version. Please refer the authors of this software to https://semver.org.`);
+    throw new Error(`Version "${version}" of "${name}" is not a valid semver version.`);
   }
 
   // If the user supplied a version range and the executable's version does not
   // satisfy it, throw.
   if (versionRange && !semver.satisfies(version, versionRange)) {
-    throw new Error(`Version "${version}" of "${name}" does not satisfy required range "${versionRange}".`);
+    throw new Error(`Version "${version}" of "${name}" does not satisfy criteria "${versionRange}".`);
   }
 
-  // Return a function bound to the executable.
   const execaWrapper = (commandStringOrArgumentsArray: string | Array<string>, execaOpts?: execa.Options) => {
     if (typeof commandStringOrArgumentsArray === 'string') {
       return execa.command(`${name} ${commandStringOrArgumentsArray}`, execaOpts);
@@ -75,7 +83,6 @@ export default async function chex(dependencyExpression: string): Promise<ExecaW
     return execa(name, commandStringOrArgumentsArray, execaOpts);
   };
 
-  // Support sync calls.
   execaWrapper.sync = (commandStringOrArgumentsArray: string | Array<string>, execaOpts?: execa.SyncOptions) => {
     if (typeof commandStringOrArgumentsArray === 'string') {
       return execa.commandSync(`${name} ${commandStringOrArgumentsArray}`, execaOpts);
@@ -84,9 +91,44 @@ export default async function chex(dependencyExpression: string): Promise<ExecaW
     return execa.sync(name, commandStringOrArgumentsArray, execaOpts);
   };
 
-  // Attach the resolved executable version to our function.
+  // Attach the resolved executable version to the Execa wrapper.
   execaWrapper.version = version;
   execaWrapper.rawVersion = rawVersion;
 
   return execaWrapper;
 }
+
+
+/**
+ * Asynchronous version of Chex.
+ */
+const chex = async (dependencyExpression: string): Promise<ExecaWrapper> => {
+  const {name, versionRange} = parseDependencyExpression(dependencyExpression);
+
+  try {
+    // This will throw if the dependency doesn't exist.
+    const {version, rawVersion} = await getDependencyVersion(name);
+    return chexCommon(name, versionRange, version, rawVersion);
+  } catch (err) {
+    throw new Error(`Executable "${name}" could not be found.`);
+  }
+};
+
+
+/**
+ * Synchronous version of Chex.
+ */
+chex.sync = (dependencyExpression: string): ExecaWrapper => {
+  const {name, versionRange} = parseDependencyExpression(dependencyExpression);
+
+  try {
+    // This will throw if the dependency doesn't exist.
+    const {version, rawVersion} = getDependencyVersion.sync(name);
+    return chexCommon(name, versionRange, version, rawVersion);
+  } catch (err) {
+    throw new Error(`Executable "${name}" could not be found.`);
+  }
+};
+
+
+export default chex;
