@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.2](https://github.com/darkobits/chex/compare/v0.1.1...v0.1.2) (2019-11-19)
+
+
+### Features
+
+* Add synchronous modes. ([fd798d9](https://github.com/darkobits/chex/commit/fd798d9f4fce683491bc110427b8fa74a59d67f3))
+
 ### [0.1.1](https://github.com/darkobits/chex/compare/v0.1.0...v0.1.1) (2019-11-08)
 
 
