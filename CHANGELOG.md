@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.3](https://github.com/darkobits/chex/compare/v0.1.2...v0.1.3) (2019-11-19)
+
+
+### Bug Fixes
+
+* Improve error-handling. ([3931bb2](https://github.com/darkobits/chex/commit/3931bb2bedadf397e0988da6aa3f335aa2bb539a))
+
 ### [0.1.2](https://github.com/darkobits/chex/compare/v0.1.1...v0.1.2) (2019-11-19)
 
 
