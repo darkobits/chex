@@ -55,10 +55,10 @@ function parseVersionResult(result: execa.ExecaReturnBase<string>) {
  * Provided an error thrown by Execa, re-throws if the error indicates that the
  * executable in the original command could not be found.
  */
-function handleError(err: any) {
+function handleError(name: string, err: any) {
   // Executable does not exist or is otherwise not installed correctly.
   if (err && err.errno === 'ENOENT') {
-    throw err;
+    throw new Error(`Executable "${name}" could not be found.`);
   }
 
   // For any other error, we can assume the version flag is not supported,
@@ -75,13 +75,13 @@ function handleError(err: any) {
 async function getExecutableVersion(name: string) {
   for (const flag of versionFlags) {
     try {
-      const version = parseVersionResult(await execa.command(`${normalizeName(name)} ${flag}`));
+      const version = parseVersionResult(await execa(normalizeName(name), [flag]));
 
       if (version) {
         return version;
       }
     } catch (err) {
-      handleError(err);
+      handleError(name, err);
     }
   }
 
@@ -95,13 +95,13 @@ async function getExecutableVersion(name: string) {
 getExecutableVersion.sync = (name: string) => {
   for (const flag of versionFlags) {
     try {
-      const version = parseVersionResult(execa.commandSync(`${normalizeName(name)} ${flag}`));
+      const version = parseVersionResult(execa.sync(normalizeName(name), [flag]));
 
       if (version) {
         return version;
       }
     } catch (err) {
-      handleError(err);
+      handleError(name, err);
     }
   }
 

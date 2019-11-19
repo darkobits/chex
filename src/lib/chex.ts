@@ -1,6 +1,6 @@
 import execa from 'execa';
 import semver from 'semver';
-import getDependencyVersion from 'lib/get-executable-version';
+import getExecutableVersion from 'lib/get-executable-version';
 
 
 /**
@@ -103,15 +103,14 @@ function chexCommon(name: string, versionRange: string, version: string, rawVers
  * Asynchronous version of Chex.
  */
 const chex = async (dependencyExpression: string): Promise<ExecaWrapper> => {
+  // Parse input.
   const {name, versionRange} = parseDependencyExpression(dependencyExpression);
 
-  try {
-    // This will throw if the dependency doesn't exist.
-    const {version, rawVersion} = await getDependencyVersion(name);
-    return chexCommon(name, versionRange, version, rawVersion);
-  } catch (err) {
-    throw new Error(`Executable "${name}" could not be found.`);
-  }
+  // Get version, throw if executable is not found.
+  const {version, rawVersion} = await getExecutableVersion(name);
+
+  // Return Execa wrapper, throw if version is not satisfied.
+  return chexCommon(name, versionRange, version, rawVersion);
 };
 
 
@@ -119,15 +118,14 @@ const chex = async (dependencyExpression: string): Promise<ExecaWrapper> => {
  * Synchronous version of Chex.
  */
 chex.sync = (dependencyExpression: string): ExecaWrapper => {
+  // Parse input.
   const {name, versionRange} = parseDependencyExpression(dependencyExpression);
 
-  try {
-    // This will throw if the dependency doesn't exist.
-    const {version, rawVersion} = getDependencyVersion.sync(name);
-    return chexCommon(name, versionRange, version, rawVersion);
-  } catch (err) {
-    throw new Error(`Executable "${name}" could not be found.`);
-  }
+  // Get version, throw if executable is not found.
+  const {version, rawVersion} = getExecutableVersion.sync(name);
+
+  // Return Execa wrapper, throw if version is not satisfied.
+  return chexCommon(name, versionRange, version, rawVersion);
 };
 
 
