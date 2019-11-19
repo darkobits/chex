@@ -44,8 +44,9 @@ describe('getExecutableVersion', () => {
 
   beforeEach(() => {
     jest.doMock('execa', () => {
-      const execa = async (command: string) => {
-        const [name, versionFlag] = command.split(' ');
+      const execaCore = (file: string, args: Array<any>) => {
+        const name = file;
+        const versionFlag = args[0];
         const result = testExecutables.find(descriptor => descriptor.name === name);
 
         if (!result) {
@@ -62,7 +63,9 @@ describe('getExecutableVersion', () => {
         return {[result.stream]: Reflect.get(result, versionFlag)};
       };
 
-      execa.command = execa;
+      const execa = (file: string, args: Array<any>) => Promise.resolve(execaCore(file, args));
+      execa.sync = execaCore;
+
       return execa;
     });
 
