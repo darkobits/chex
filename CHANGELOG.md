@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.5](https://github.com/darkobits/chex/compare/v0.1.4...v0.1.5) (2019-11-22)
+
+
+### Features
+
+* Support passing options to initial Execa call. ([935e156](https://github.com/darkobits/chex/commit/935e15688f205fba262fdac9ebf175a691d068b4))
+
 ### [0.1.4](https://github.com/darkobits/chex/compare/v0.1.3...v0.1.4) (2019-11-19)
 
 ### [0.1.3](https://github.com/darkobits/chex/compare/v0.1.2...v0.1.3) (2019-11-19)

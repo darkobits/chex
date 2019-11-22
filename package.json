@@ -1,6 +1,6 @@
 {
   "name": "@darkobits/chex",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "license": "WTFPL",
   "description": "Check that an executable is installed and verify its version.",
   "author": "darkobits",
@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "execa": "^3.3.0",
-    "find-versions": "^3.1.0",
+    "find-versions": "^3.2.0",
     "semver": "^6.3.0"
   },
   "devDependencies": {
