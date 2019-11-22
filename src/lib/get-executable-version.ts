@@ -72,10 +72,10 @@ function handleError(name: string, err: any) {
  * could not be determined, resolves with the string 'unknown'. If the
  * executable does not exist on the system, an error will be thrown.
  */
-async function getExecutableVersion(name: string) {
+async function getExecutableVersion(name: string, execaOpts?: execa.Options) {
   for (const flag of versionFlags) {
     try {
-      const version = parseVersionResult(await execa(normalizeName(name), [flag]));
+      const version = parseVersionResult(await execa(normalizeName(name), [flag], execaOpts));
 
       if (version) {
         return version;
@@ -92,10 +92,10 @@ async function getExecutableVersion(name: string) {
 /**
  * Synchronous version of the above.
  */
-getExecutableVersion.sync = (name: string) => {
+getExecutableVersion.sync = (name: string, execaOpts?: execa.SyncOptions) => {
   for (const flag of versionFlags) {
     try {
-      const version = parseVersionResult(execa.sync(normalizeName(name), [flag]));
+      const version = parseVersionResult(execa.sync(normalizeName(name), [flag], execaOpts));
 
       if (version) {
         return version;

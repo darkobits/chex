@@ -102,12 +102,12 @@ function chexCommon(name: string, versionRange: string, version: string, rawVers
 /**
  * Asynchronous version of Chex.
  */
-const chex = async (dependencyExpression: string): Promise<ExecaWrapper> => {
+const chex = async (dependencyExpression: string, execaOpts?: execa.Options): Promise<ExecaWrapper> => {
   // Parse input.
   const {name, versionRange} = parseDependencyExpression(dependencyExpression);
 
   // Get version, throw if executable is not found.
-  const {version, rawVersion} = await getExecutableVersion(name);
+  const {version, rawVersion} = await getExecutableVersion(name, execaOpts);
 
   // Return Execa wrapper, throw if version is not satisfied.
   return chexCommon(name, versionRange, version, rawVersion);
@@ -117,12 +117,12 @@ const chex = async (dependencyExpression: string): Promise<ExecaWrapper> => {
 /**
  * Synchronous version of Chex.
  */
-chex.sync = (dependencyExpression: string): ExecaWrapper => {
+chex.sync = (dependencyExpression: string, execaOpts?: execa.SyncOptions): ExecaWrapper => {
   // Parse input.
   const {name, versionRange} = parseDependencyExpression(dependencyExpression);
 
   // Get version, throw if executable is not found.
-  const {version, rawVersion} = getExecutableVersion.sync(name);
+  const {version, rawVersion} = getExecutableVersion.sync(name, execaOpts);
 
   // Return Execa wrapper, throw if version is not satisfied.
   return chexCommon(name, versionRange, version, rawVersion);

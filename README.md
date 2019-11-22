@@ -98,8 +98,13 @@ export default async function main() {
 Chex exports an async function with the following signature:
 
 ```ts
-(executableExpression: string): Promise<ExecaWrapper>;
+(executableExpression: string, execaOpts?: execa.Options): Promise<ExecaWrapper>;
 ```
+
+**Note:** Execa options provided to `chex` or `chex.sync` will be used to
+configure the call to locate the executable. Calls to the executable itself may
+be configured by providing an Execa options object to the wrapper returned by
+Chex.
 
 `ExecaWrapper` is a function with the following signature and properties:
 
