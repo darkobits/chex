@@ -9,7 +9,7 @@
   <a href="https://conventionalcommits.org"><img src="https://img.shields.io/badge/conventional%20commits-1.0.0-FB5E85.svg?style=flat-square"></a>
 </p>
 
-If you use [execa](https://github.com/sindresorhus/execa) in your application to
+If you use [Execa](https://github.com/sindresorhus/execa) in your application to
 integrate with other executables, this tool provides a way to:
 
 1. Verify that an executable is installed and fail fast if is isn't and/or:
@@ -43,14 +43,14 @@ import chex from '@darkobits/chex';
 export default async function main() {
   const git = await chex('git >=2.0.0');
 
-  // Now, we can use this value just like execa:
+  // Now, we can use this value just like Execa:
   const status = await git('status');
 
   // If you prefer the array form, you can use that as well. Execa's
   // .command() variant is just an overload with Chex:
   const sha = await git(['rev-parse', 'HEAD']);
 
-  // Execa options are passed-though to execa:
+  // Execa options are passed-though to Execa:
   const pushResult = await git('push origin master', {stdio: 'inherit'});
 
   // You can also do all of the above synchronously:
@@ -95,10 +95,16 @@ export default async function main() {
 
 ## API
 
-Chex exports an async function with the following signature:
+Chex is available in asynchronous and synchronous modes. This package's default
+export is the asynchronous function. The synchronous function is available at
+the `.sync` property.
+
 
 ```ts
-(executableExpression: string, execaOpts?: execa.Options): Promise<ExecaWrapper>;
+interface Chex {
+  (executableExpression: string, execaOpts?: execa.Options): Promise<ExecaWrapper>;
+  sync(executableExpression: string, execaOpts?: execa.SyncOptions): ExecaWrapper;
+}
 ```
 
 **Note:** Execa options provided to `chex` or `chex.sync` will be used to
@@ -111,26 +117,31 @@ Chex.
 ```ts
 interface ExecaWrapper {
   /**
-   * Call the bound executable asynchronously.
+   * Call the bound executable via Execa asynchronously.
    */
-  (commandOrArgs: string | Array<string>, execaOptions?: ExecaOptions): ExecaChildProcess;
+  (commandOrArgs: string | Array<string>, execaOpts?: ExecaOptions): ExecaChildProcess;
 
   /**
-   * Call the bound executable synchronously.
+   * Call the bound executable via Execa synchronously.
    */
-  sync(commandOrArgs: string | Array<string>, execaOptions?: ExecaOptions): ExecaSyncReturnValue;
+  sync(commandOrArgs: string | Array<string>, execaOpts?: ExecaOptions): ExecaSyncReturnValue;
 
   /**
-   * Parsed/cleaned semver version.
+   * Parsed/cleaned semver version of the executable.
    */
   version: string;
 
   /**
-   * Raw string received from the executable.
+   * Raw version descriptor reported by the executable.
    */
   rawVersion: string;
 }
 ```
+
+**Note:** Both the synchronous and asynchronous versions of Chex return the
+same Execa wrapper, which itself has synchronous and asynchronous modes. It is
+therefore possible to mix and match these call types to fit your application's
+needs.
 
 ## Caveats
 
@@ -141,8 +152,6 @@ the version of the executable satisfies your criteria. For these executables,
 you can omit a version criteria and Chex will still throw if the executable is
 not found.
 
-## &nbsp;
-<p align="center">
-  <br>
-  <img width="22" height="22" src="https://cloud.githubusercontent.com/assets/441546/25318539/db2f4cf2-2845-11e7-8e10-ef97d91cd538.png">
-</p>
+<a href="#top">
+  <img src="https://user-images.githubusercontent.com/441546/69777002-41ac7380-1153-11ea-85a4-88184f8c9975.png" style="max-width: 100%;">
+</a>
