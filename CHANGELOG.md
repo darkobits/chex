@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.6](https://github.com/darkobits/chex/compare/v0.1.5...v0.1.6) (2019-11-28)
+
+
+### Features
+
+* Export ExecaWrapper typedef. ([a73c8ac](https://github.com/darkobits/chex/commit/a73c8ac0902c1f904d58bf3baec2648a293c13e3))
+
 ### [0.1.5](https://github.com/darkobits/chex/compare/v0.1.4...v0.1.5) (2019-11-22)
 
 
