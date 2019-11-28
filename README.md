@@ -44,11 +44,11 @@ export default async function main() {
   const git = await chex('git >=2.0.0');
 
   // Now, we can use this value just like Execa:
-  const status = await git('status');
+  const status = await git(['rev-parse', 'HEAD']);
 
-  // If you prefer the array form, you can use that as well. Execa's
+  // If you prefer the string form, you can use that as well. Execa's
   // .command() variant is just an overload with Chex:
-  const sha = await git(['rev-parse', 'HEAD']);
+  const sha = await git('status');
 
   // Execa options are passed-though to Execa:
   const pushResult = await git('push origin master', {stdio: 'inherit'});
