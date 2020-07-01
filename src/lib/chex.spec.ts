@@ -1,5 +1,7 @@
+/* eslint-disable unicorn/no-useless-undefined */
+/* eslint-disable @typescript-eslint/unbound-method */
 import execa from 'execa';
-import uuid from 'uuid/v4';
+import {v4 as uuid} from 'uuid';
 
 import getExecutableVersion from 'lib/get-executable-version';
 import chex from './chex';
@@ -19,8 +21,6 @@ jest.mock('execa', () => {
 
 jest.mock('lib/get-executable-version', () => {
   const getExecutableVersionMock = (name: string) => {
-    // console.warn('[FOO]', name);
-
     if (name === 'unknown') {
       return {version: 'unknown', rawVersion: 'unknown'};
     }

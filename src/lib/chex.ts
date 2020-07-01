@@ -75,7 +75,7 @@ function chexCommon(name: string, versionRange: string, version: string, rawVers
     throw new Error(`Version "${version}" of "${name}" does not satisfy criteria "${versionRange}".`);
   }
 
-  const execaWrapper = (commandStringOrArgumentsArray: string | Array<string>, execaOpts?: execa.Options) => {
+  const execaWrapper = (commandStringOrArgumentsArray: string | ReadonlyArray<string>, execaOpts?: execa.Options) => {
     if (typeof commandStringOrArgumentsArray === 'string') {
       return execa.command(`${name} ${commandStringOrArgumentsArray}`, execaOpts);
     }
@@ -83,7 +83,7 @@ function chexCommon(name: string, versionRange: string, version: string, rawVers
     return execa(name, commandStringOrArgumentsArray, execaOpts);
   };
 
-  execaWrapper.sync = (commandStringOrArgumentsArray: string | Array<string>, execaOpts?: execa.SyncOptions) => {
+  execaWrapper.sync = (commandStringOrArgumentsArray: string | ReadonlyArray<string>, execaOpts?: execa.SyncOptions) => {
     if (typeof commandStringOrArgumentsArray === 'string') {
       return execa.commandSync(`${name} ${commandStringOrArgumentsArray}`, execaOpts);
     }

@@ -67,9 +67,9 @@ function handleError(name: string, err: any) {
 
 
 /**
- * Provided an executable name, uses various techniques to determine its version.
- * If successful, resolves with the version of the executable. If the version
- * could not be determined, resolves with the string 'unknown'. If the
+ * Provided an executable name, uses various techniques to determine its
+ * version. If successful, resolves with the version of the executable. If the
+ * version could not be determined, resolves with the string 'unknown'. If the
  * executable does not exist on the system, an error will be thrown.
  */
 async function getExecutableVersion(name: string, execaOpts?: execa.Options) {

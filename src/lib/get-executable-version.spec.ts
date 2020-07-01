@@ -56,13 +56,13 @@ describe('getExecutableVersion', () => {
         }
 
         if (!Reflect.has(result, versionFlag)) {
-          throw new Error();
+          throw new Error('foo');
         }
 
         return {[result.stream]: Reflect.get(result, versionFlag)};
       };
 
-      const execa = (file: string, args: Array<any>) => Promise.resolve(execaCore(file, args));
+      const execa = async (file: string, args: Array<any>) => Promise.resolve(execaCore(file, args));
       execa.sync = execaCore;
 
       return execa;
