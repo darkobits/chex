@@ -1,9 +1,9 @@
 <a href="#top" id="top">
-  <img src="https://user-images.githubusercontent.com/441546/68451993-d6036600-01a5-11ea-89cb-61811521229e.png" style="max-width: 100%;">
+  <img src="https://user-images.githubusercontent.com/441546/98944690-45412380-24a6-11eb-92ec-5a6225253ae2.png" style="max-width: 100%;">
 </a>
 <p align="center">
   <a href="https://www.npmjs.com/package/@darkobits/chex"><img src="https://img.shields.io/npm/v/@darkobits/chex.svg?style=flat-square"></a>
-  <a href="https://github.com/darkobits/chex/actions"><img src="https://img.shields.io/endpoint?url=https://aws.frontlawn.net/ga-shields/darkobits/chex&style=flat-square"></a>
+  <a href="https://travis-ci.com/github/darkobits/chex"><img src="https://img.shields.io/travis/com/darkobits/chex?style=flat-square"></a>
   <a href="https://www.codacy.com/app/darkobits/chex"><img src="https://img.shields.io/codacy/coverage/7db80a17ba84452a8c619fdf34c9c447.svg?style=flat-square"></a>
   <a href="https://david-dm.org/darkobits/chex"><img src="https://img.shields.io/david/darkobits/chex.svg?style=flat-square"></a>
   <a href="https://conventionalcommits.org"><img src="https://img.shields.io/badge/conventional%20commits-1.0.0-FB5E85.svg?style=flat-square"></a>
@@ -152,6 +152,8 @@ the version of the executable satisfies your criteria. For these executables,
 you can omit a version criteria and Chex will still throw if the executable is
 not found.
 
-<a href="#top">
-  <img src="https://user-images.githubusercontent.com/441546/69777002-41ac7380-1153-11ea-85a4-88184f8c9975.png" style="max-width: 100%;">
-</a>
+## &nbsp;
+<p align="center">
+  <br>
+  <img width="24" height="24" src="https://cloud.githubusercontent.com/assets/441546/25318539/db2f4cf2-2845-11e7-8e10-ef97d91cd538.png">
+</p>
