@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.10](https://github.com/darkobits/chex/compare/v0.1.9...v0.1.10) (2020-12-09)
+
+
+### 🏗 Chores
+
+* Update execa to 5.0.0. ([c753261](https://github.com/darkobits/chex/commit/c753261996588d7b79401574491b9007789faf42))
+
 ### [0.1.9](https://github.com/darkobits/chex/compare/v0.1.8...v0.1.9) (2020-12-09)
 
 
