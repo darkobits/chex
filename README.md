@@ -6,7 +6,7 @@
   <a href="https://travis-ci.com/github/darkobits/chex"><img src="https://img.shields.io/travis/com/darkobits/chex?style=flat-square"></a>
   <a href="https://www.codacy.com/app/darkobits/chex"><img src="https://img.shields.io/codacy/coverage/7db80a17ba84452a8c619fdf34c9c447.svg?style=flat-square"></a>
   <a href="https://david-dm.org/darkobits/chex"><img src="https://img.shields.io/david/darkobits/chex.svg?style=flat-square"></a>
-  <a href="https://conventionalcommits.org"><img src="https://img.shields.io/badge/conventional%20commits-1.0.0-FB5E85.svg?style=flat-square"></a>
+  <a href="https://github.com/conventional-changelog/standard-version"><img src="https://img.shields.io/badge/conventional%20commits-1.0.0-027dc6.svg?style=flat-square"></a>
 </p>
 
 If you use [Execa](https://github.com/sindresorhus/execa) in your application to
