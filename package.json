@@ -16,7 +16,7 @@
     "prepare": "nps prepare"
   },
   "dependencies": {
-    "execa": "^4.1.0",
+    "execa": "^5.0.0",
     "find-versions": "^3.2.0",
     "semver": "^7.3.2"
   },
