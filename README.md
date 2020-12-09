@@ -1,5 +1,5 @@
 <a href="#top" id="top">
-  <img src="https://user-images.githubusercontent.com/441546/98944690-45412380-24a6-11eb-92ec-5a6225253ae2.png" style="max-width: 100%;">
+  <img src="https://user-images.githubusercontent.com/441546/101617498-88b78080-39c5-11eb-8b14-18038e29e5a2.png" style="max-width: 100%;">
 </a>
 <p align="center">
   <a href="https://www.npmjs.com/package/@darkobits/chex"><img src="https://img.shields.io/npm/v/@darkobits/chex.svg?style=flat-square"></a>
