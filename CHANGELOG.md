@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.9](https://github.com/darkobits/chex/compare/v0.1.8...v0.1.9) (2020-12-09)
+
+
+### 🏗 Chores
+
+* Update dependencies. ([dbbc91d](https://github.com/darkobits/chex/commit/dbbc91daa2ae1b8a15fdca09144116476f3be48f))
+* Update Travis configuration. ([0d5fad5](https://github.com/darkobits/chex/commit/0d5fad58b7debe88f1adc66c329b09fe9c544a96))
+
+
+### 📖 Documentation
+
+* Update README. ([0ea3a01](https://github.com/darkobits/chex/commit/0ea3a015d701addc4da15f1fc445571de56c8c56))
+
 ### [0.1.8](https://github.com/darkobits/chex/compare/v0.1.7...v0.1.8) (2020-11-12)
 
 ### [0.1.7](https://github.com/darkobits/chex/compare/v0.1.6...v0.1.7) (2020-07-01)
