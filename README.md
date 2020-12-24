@@ -3,8 +3,8 @@
 </a>
 <p align="center">
   <a href="https://www.npmjs.com/package/@darkobits/chex"><img src="https://img.shields.io/npm/v/@darkobits/chex.svg?style=flat-square"></a>
-  <a href="https://travis-ci.com/github/darkobits/chex"><img src="https://img.shields.io/travis/com/darkobits/chex?style=flat-square"></a>
-  <a href="https://www.codacy.com/app/darkobits/chex"><img src="https://img.shields.io/codacy/coverage/7db80a17ba84452a8c619fdf34c9c447.svg?style=flat-square"></a>
+  <a href="https://github.com/darkobits/chex/actions?query=workflow%3ACI"><img src="https://img.shields.io/github/workflow/status/darkobits/chex/CI/master?style=flat-square"></a>
+  <a href="https://app.codecov.io/gh/darkobits/chex/branch/master"><img src="https://img.shields.io/codecov/c/github/darkobits/chex/master?style=flat-square"></a>
   <a href="https://david-dm.org/darkobits/chex"><img src="https://img.shields.io/david/darkobits/chex.svg?style=flat-square"></a>
   <a href="https://github.com/conventional-changelog/standard-version"><img src="https://img.shields.io/badge/conventional%20commits-1.0.0-027dc6.svg?style=flat-square"></a>
 </p>
@@ -152,6 +152,7 @@ the version of the executable satisfies your criteria. For these executables,
 you can omit a version criteria and Chex will still throw if the executable is
 not found.
 
+<br />
 <a href="#top">
   <img src="https://user-images.githubusercontent.com/441546/102322726-5e6d4200-3f34-11eb-89f2-c31624ab7488.png" style="max-width: 100%;">
 </a>
