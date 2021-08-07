@@ -6,7 +6,8 @@
   <a href="https://github.com/darkobits/chex/actions?query=workflow%3ACI"><img src="https://img.shields.io/github/workflow/status/darkobits/chex/CI/master?style=flat-square"></a>
   <a href="https://app.codecov.io/gh/darkobits/chex/branch/master"><img src="https://img.shields.io/codecov/c/github/darkobits/chex/master?style=flat-square"></a>
   <a href="https://depfu.com/github/darkobits/chex"><img src="https://img.shields.io/depfu/darkobits/chex?style=flat-square"></a>
-  <a href="https://github.com/conventional-changelog/standard-version"><img src="https://img.shields.io/badge/conventional%20commits-1.0.0-027dc6.svg?style=flat-square"></a>
+  <a href="https://bundlephobia.com/package/@darkobits/chex"><img src="https://img.shields.io/bundlephobia/minzip/@darkobits/chex?label=size&style=flat-square"></a>
+  <a href="https://conventionalcommits.org"><img src="https://img.shields.io/static/v1?label=commits&message=conventional&style=flat-square&color=398AFB"></a>
 </p>
 
 If you use [Execa](https://github.com/sindresorhus/execa) in your application to
