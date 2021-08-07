@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.2](https://github.com/darkobits/chex/compare/v1.0.1...v1.0.2) (2021-08-07)
+
+
+### 📖 Documentation
+
+* Update README. ([9311035](https://github.com/darkobits/chex/commit/9311035ee5c0ce541bf02143007eb60738176a17))
+
+
+### 🏗 Chores
+
+* **deps:** bump handlebars from 4.7.6 to 4.7.7 ([#4](https://github.com/darkobits/chex/issues/4)) ([9574c2f](https://github.com/darkobits/chex/commit/9574c2fbae6443d74c8c33f875efc9e523ccdbca))
+* **deps:** bump hosted-git-info from 2.8.8 to 2.8.9 ([#6](https://github.com/darkobits/chex/issues/6)) ([db87fb8](https://github.com/darkobits/chex/commit/db87fb8b7b9875bf0fe0c7666b6337a8bbee8989))
+* **deps:** bump lodash from 4.17.20 to 4.17.21 ([#5](https://github.com/darkobits/chex/issues/5)) ([0e07881](https://github.com/darkobits/chex/commit/0e07881731c253bd6c7287435f7fbf9c684322e5))
+* **deps:** Update dependencies. ([b17f1d0](https://github.com/darkobits/chex/commit/b17f1d0691705eafb81998745eae98a9e3a457e6))
+* Update dependencies. ([fd0e634](https://github.com/darkobits/chex/commit/fd0e634c579799b735bfe424b5f965e1d4e1ab04))
+* Update dependencies. ([c3f4ddb](https://github.com/darkobits/chex/commit/c3f4ddbcfbaa5848a3a039ef5645ee460a31347b))
+
 ### [1.0.1](https://github.com/darkobits/chex/compare/v1.0.0...v1.0.1) (2020-12-21)
 
 ## [1.0.0](https://github.com/darkobits/chex/compare/v0.1.10...v1.0.0) (2020-12-16)
