@@ -1,22 +1,29 @@
 /* eslint-disable unicorn/no-useless-undefined */
 /* eslint-disable @typescript-eslint/unbound-method */
-import execa from 'execa';
+import {
+  execa,
+  execaSync,
+  execaCommand,
+  execaCommandSync
+} from 'execa';
 import {v4 as uuid} from 'uuid';
 
 import getExecutableVersion from 'lib/get-executable-version';
+
 import chex from './chex';
 
 
 jest.mock('execa', () => {
-  const execaMock: any = jest.fn(async () => {
-    // Empty block.
-  });
-  execaMock.sync = jest.fn();
-  execaMock.command = jest.fn(async () => {
-    // Empty block.
-  });
-  execaMock.commandSync = jest.fn();
-  return execaMock;
+  return {
+    execa: jest.fn(async () => {
+      // Empty block.
+    }),
+    execaSync: jest.fn(),
+    execaCommand: jest.fn(async () => {
+      // Empty block.
+    }),
+    execaCommandSync: jest.fn()
+  };
 });
 
 jest.mock('lib/get-executable-version', () => {
@@ -86,7 +93,7 @@ describe('chex', () => {
 
             try {
               await chex('unknown 1.2.3');
-            } catch (err) {
+            } catch (err: any) {
               expect(err.message).toMatch('Unable to determine version of "unknown"');
             }
           });
@@ -98,7 +105,7 @@ describe('chex', () => {
 
             try {
               await chex('bad 1.2.3');
-            } catch (err) {
+            } catch (err: any) {
               expect(err.message).toMatch('Version "froopy loops" of "bad" is not a valid semver version.');
             }
           });
@@ -112,7 +119,7 @@ describe('chex', () => {
 
             try {
               await chex(`${NAME} ${OUT_OF_RANGE_VERSION}`);
-            } catch (err) {
+            } catch (err: any) {
               expect(err.message).toMatch(`Version "1.2.3" of "${NAME}" does not satisfy`);
             }
           });
@@ -125,7 +132,7 @@ describe('chex', () => {
 
           try {
             await chex('foo A.B.C');
-          } catch (err) {
+          } catch (err: any) {
             expect(err.message).toMatch('Invalid semver range');
           }
         });
@@ -176,7 +183,7 @@ describe('chex', () => {
 
             try {
               chex.sync('unknown 1.2.3');
-            } catch (err) {
+            } catch (err: any) {
               expect(err.message).toMatch('Unable to determine version of "unknown"');
             }
           });
@@ -188,7 +195,7 @@ describe('chex', () => {
 
             try {
               chex.sync('bad 1.2.3');
-            } catch (err) {
+            } catch (err: any) {
               expect(err.message).toMatch('Version "froopy loops" of "bad" is not a valid semver version.');
             }
           });
@@ -202,7 +209,7 @@ describe('chex', () => {
 
             try {
               chex.sync(`${NAME} ${OUT_OF_RANGE_VERSION}`);
-            } catch (err) {
+            } catch (err: any) {
               expect(err.message).toMatch(`Version "1.2.3" of "${NAME}" does not satisfy`);
             }
           });
@@ -215,7 +222,7 @@ describe('chex', () => {
 
           try {
             chex.sync('foo A.B.C');
-          } catch (err) {
+          } catch (err: any) {
             expect(err.message).toMatch('Invalid semver range');
           }
         });
@@ -231,7 +238,7 @@ describe('chex', () => {
         it('should call execa.command', async () => {
           const wrapper = await chex(NAME);
           await wrapper('ARG1 ARG2');
-          expect(execa.command).toHaveBeenCalledWith(`${NAME} ARG1 ARG2`, undefined);
+          expect(execaCommand).toHaveBeenCalledWith(`${NAME} ARG1 ARG2`, undefined);
         });
       });
 
@@ -249,7 +256,7 @@ describe('chex', () => {
         it('should call execa.commandSync', async () => {
           const wrapper = await chex(NAME);
           wrapper.sync('ARG1 ARG2');
-          expect(execa.commandSync).toHaveBeenCalledWith(`${NAME} ARG1 ARG2`, undefined);
+          expect(execaCommandSync).toHaveBeenCalledWith(`${NAME} ARG1 ARG2`, undefined);
         });
       });
 
@@ -257,7 +264,7 @@ describe('chex', () => {
         it('should call execa.sync', async () => {
           const wrapper = await chex(NAME);
           wrapper.sync(['ARG1', 'ARG2']);
-          expect(execa.sync).toHaveBeenCalledWith(NAME, ['ARG1', 'ARG2'], undefined);
+          expect(execaSync).toHaveBeenCalledWith(NAME, ['ARG1', 'ARG2'], undefined);
         });
       });
     });

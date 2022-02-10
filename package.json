@@ -1,9 +1,10 @@
 {
   "name": "@darkobits/chex",
   "version": "1.0.2",
-  "license": "WTFPL",
   "description": "Check that an executable is installed and verify its version.",
   "author": "darkobits",
+  "license": "WTFPL",
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/darkobits/chex.git"
@@ -16,14 +17,14 @@
     "prepare": "nr prepare"
   },
   "dependencies": {
-    "execa": "^5.1.1",
-    "find-versions": "^4.0.0",
+    "execa": "^6.0.0",
+    "find-versions": "^5.0.0",
     "semver": "^7.3.5"
   },
   "devDependencies": {
-    "@darkobits/ts": "^0.7.11",
-    "@types/semver": "^7.3.8",
-    "@types/uuid": "^8.3.1",
+    "@darkobits/ts": "^0.8.21",
+    "@types/semver": "^7.3.9",
+    "@types/uuid": "^8.3.4",
     "uuid": "^8.3.2"
   }
 }

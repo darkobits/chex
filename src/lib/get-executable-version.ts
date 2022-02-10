@@ -1,4 +1,10 @@
-import execa from 'execa';
+import {
+  execa,
+  execaSync,
+  type ExecaReturnBase,
+  type Options,
+  type SyncOptions
+} from 'execa';
 import findVersions from 'find-versions';
 import semver from 'semver';
 
@@ -26,7 +32,7 @@ function normalizeName(name: string) {
 /**
  * Attempt to read from various output streams, in order.
  */
-function parseVersionResult(result: execa.ExecaReturnBase<string>) {
+function parseVersionResult(result: ExecaReturnBase<string>) {
   // Attempt to read from various output streams, in order.
   for (const stream of ['stdout', 'stderr'] as Array<'stdout' | 'stderr'>) {
     const rawVersion = result[stream];
@@ -72,7 +78,7 @@ function handleError(name: string, err: any) {
  * version could not be determined, resolves with the string 'unknown'. If the
  * executable does not exist on the system, an error will be thrown.
  */
-async function getExecutableVersion(name: string, execaOpts?: execa.Options) {
+async function getExecutableVersion(name: string, execaOpts?: Options) {
   for (const flag of versionFlags) {
     try {
       const version = parseVersionResult(await execa(normalizeName(name), [flag], execaOpts));
@@ -92,10 +98,10 @@ async function getExecutableVersion(name: string, execaOpts?: execa.Options) {
 /**
  * Synchronous version of the above.
  */
-getExecutableVersion.sync = (name: string, execaOpts?: execa.SyncOptions) => {
+getExecutableVersion.sync = (name: string, execaOpts?: SyncOptions) => {
   for (const flag of versionFlags) {
     try {
-      const version = parseVersionResult(execa.sync(normalizeName(name), [flag], execaOpts));
+      const version = parseVersionResult(execaSync(normalizeName(name), [flag], execaOpts));
 
       if (version) {
         return version;

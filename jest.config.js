@@ -8,5 +8,6 @@ export default jest({
       functions: 90,
       lines: 90
     }
-  }
+  },
+  transformIgnorePatterns: []
 });

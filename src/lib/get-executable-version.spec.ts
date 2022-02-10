@@ -49,7 +49,7 @@ describe('getExecutableVersion', () => {
         const result = testExecutables.find(descriptor => descriptor.name === name);
 
         if (!result) {
-          const err = new Error();
+          const err = new Error('!');
           // @ts-ignore
           err.errno = 'ENOENT';
           throw err;
@@ -63,9 +63,11 @@ describe('getExecutableVersion', () => {
       };
 
       const execa = async (file: string, args: Array<any>) => Promise.resolve(execaCore(file, args));
-      execa.sync = execaCore;
 
-      return execa;
+      return {
+        execa,
+        execaSync: execaCore
+      };
     });
 
     getExecutableVersion = require('./get-executable-version'); // tslint:disable-line no-require-imports

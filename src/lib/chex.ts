@@ -1,5 +1,15 @@
-import execa from 'execa';
+import {
+  execa,
+  execaCommand,
+  execaCommandSync,
+  execaSync,
+  type ExecaChildProcess,
+  type ExecaSyncReturnValue,
+  type Options,
+  type SyncOptions
+} from 'execa';
 import semver from 'semver';
+
 import getExecutableVersion from 'lib/get-executable-version';
 
 
@@ -34,12 +44,12 @@ export interface ExecaWrapper {
   /**
    * Call the bound executable asynchronously.
    */
-  (command: string | ReadonlyArray<string>, options?: execa.Options): execa.ExecaChildProcess;
+  (command: string | ReadonlyArray<string>, options?: Options): ExecaChildProcess;
 
   /**
    * Call the bound executable synchronously.
    */
-  sync(command: string | ReadonlyArray<string>, options?: execa.SyncOptions): execa.ExecaSyncReturnValue;
+  sync(command: string | ReadonlyArray<string>, options?: SyncOptions): ExecaSyncReturnValue;
 
   /**
    * Parsed semver version of the executable.
@@ -75,20 +85,20 @@ function chexCommon(name: string, versionRange: string, version: string, rawVers
     throw new Error(`Version "${version}" of "${name}" does not satisfy criteria "${versionRange}".`);
   }
 
-  const execaWrapper = (commandStringOrArgumentsArray: string | ReadonlyArray<string>, execaOpts?: execa.Options) => {
+  const execaWrapper = (commandStringOrArgumentsArray: string | ReadonlyArray<string>, execaOpts?: Options) => {
     if (typeof commandStringOrArgumentsArray === 'string') {
-      return execa.command(`${name} ${commandStringOrArgumentsArray}`, execaOpts);
+      return execaCommand(`${name} ${commandStringOrArgumentsArray}`, execaOpts);
     }
 
     return execa(name, commandStringOrArgumentsArray, execaOpts);
   };
 
-  execaWrapper.sync = (commandStringOrArgumentsArray: string | ReadonlyArray<string>, execaOpts?: execa.SyncOptions) => {
+  execaWrapper.sync = (commandStringOrArgumentsArray: string | ReadonlyArray<string>, execaOpts?: SyncOptions) => {
     if (typeof commandStringOrArgumentsArray === 'string') {
-      return execa.commandSync(`${name} ${commandStringOrArgumentsArray}`, execaOpts);
+      return execaCommandSync(`${name} ${commandStringOrArgumentsArray}`, execaOpts);
     }
 
-    return execa.sync(name, commandStringOrArgumentsArray, execaOpts);
+    return execaSync(name, commandStringOrArgumentsArray, execaOpts);
   };
 
   // Attach the resolved executable version to the Execa wrapper.
@@ -102,7 +112,7 @@ function chexCommon(name: string, versionRange: string, version: string, rawVers
 /**
  * Asynchronous version of Chex.
  */
-const chex = async (dependencyExpression: string, execaOpts?: execa.Options): Promise<ExecaWrapper> => {
+const chex = async (dependencyExpression: string, execaOpts?: Options): Promise<ExecaWrapper> => {
   // Parse input.
   const {name, versionRange} = parseDependencyExpression(dependencyExpression);
 
@@ -117,7 +127,7 @@ const chex = async (dependencyExpression: string, execaOpts?: execa.Options): Pr
 /**
  * Synchronous version of Chex.
  */
-chex.sync = (dependencyExpression: string, execaOpts?: execa.SyncOptions): ExecaWrapper => {
+chex.sync = (dependencyExpression: string, execaOpts?: SyncOptions): ExecaWrapper => {
   // Parse input.
   const {name, versionRange} = parseDependencyExpression(dependencyExpression);
 
