@@ -62,7 +62,7 @@ describe('getExecutableVersion', () => {
         return {[result.stream]: Reflect.get(result, versionFlag)};
       };
 
-      const execa = async (file: string, args: Array<any>) => Promise.resolve(execaCore(file, args));
+      const execa = async (file: string, args: Array<any>) => execaCore(file, args);
 
       return {
         execa,
