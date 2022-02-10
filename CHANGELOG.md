@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0](https://github.com/darkobits/chex/compare/v1.0.2...v2.0.0) (2022-02-10)
+
+
+### 🛠 Refactoring
+
+* Publish as ESM. ([a0b1596](https://github.com/darkobits/chex/commit/a0b1596df067dc148603f16a2702a9793bf94b3d))
+
 ### [1.0.2](https://github.com/darkobits/chex/compare/v1.0.1...v1.0.2) (2021-08-07)
 
 
