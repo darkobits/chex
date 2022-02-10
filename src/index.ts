@@ -1,2 +1,1 @@
-export {default} from 'lib/chex';
-export {ExecaWrapper} from 'lib/chex';
+export { default, type ExecaWrapper } from 'lib/chex';
