@@ -8,7 +8,5 @@ export default jestEsm({
       functions: 90,
       lines: 90
     }
-  },
-  // transformIgnorePatterns: [],
-  // verbose: true
+  }
 });
