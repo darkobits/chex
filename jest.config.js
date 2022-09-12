@@ -1,6 +1,6 @@
-import { jest } from '@darkobits/ts';
+import { jestEsm } from '@darkobits/ts';
 
-export default jest({
+export default jestEsm({
   coverageThreshold: {
     global: {
       statements: 90,
@@ -9,5 +9,6 @@ export default jest({
       lines: 90
     }
   },
-  transformIgnorePatterns: []
+  // transformIgnorePatterns: [],
+  // verbose: true
 });

@@ -17,13 +17,13 @@
     "prepare": "nr prepare"
   },
   "dependencies": {
-    "@darkobits/eslint-plugin": "^0.2.9",
     "execa": "^6.1.0",
     "find-versions": "^5.1.0",
     "semver": "^7.3.7"
   },
   "devDependencies": {
-    "@darkobits/ts": "^0.11.0",
+    "@darkobits/eslint-plugin": "^0.2.9",
+    "@darkobits/ts": "^0.12.4",
     "@types/semver": "^7.3.12",
     "@types/uuid": "^8.3.4",
     "uuid": "^8.3.2"
