@@ -19,7 +19,7 @@
   "dependencies": {
     "execa": "^6.1.0",
     "find-versions": "^5.1.0",
-    "semver": "^7.3.7"
+    "semver": "^7.3.8"
   },
   "devDependencies": {
     "@darkobits/eslint-plugin": "^0.2.9",
