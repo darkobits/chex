@@ -3,14 +3,14 @@
 </a>
 <p align="center">
   <a href="https://www.npmjs.com/package/@darkobits/chex"><img src="https://img.shields.io/npm/v/@darkobits/chex.svg?style=flat-square"></a>
-  <a href="https://github.com/darkobits/chex/actions?query=workflow%3Aci"><img src="https://img.shields.io/github/workflow/status/darkobits/chex/ci/master?style=flat-square"></a>
+  <a href="https://github.com/darkobits/chex/actions?query=workflow%3Aci"><img src="https://img.shields.io/github/actions/workflow/status/darkobits/chex/ci.yml?style=flat-square"></a>
   <a href="https://app.codecov.io/gh/darkobits/chex/branch/master"><img src="https://img.shields.io/codecov/c/github/darkobits/chex/master?style=flat-square"></a>
   <a href="https://depfu.com/github/darkobits/chex"><img src="https://img.shields.io/depfu/darkobits/chex?style=flat-square"></a>
   <a href="https://conventionalcommits.org"><img src="https://img.shields.io/static/v1?label=commits&message=conventional&style=flat-square&color=398AFB"></a>
 </p>
 
-If you use [Execa](https://github.com/sindresorhus/execa) in your application to
-integrate with other executables, this tool provides a way to:
+If you use [Execa](https://github.com/sindresorhus/execa) in your application to integrate with other
+executables, this tool provides a way to:
 
 1. Verify that an executable is installed and fail fast if is isn't and/or:
 2. Ensure that a particular version is installed and fail fast if it isn't.
@@ -23,18 +23,16 @@ $ npm install @darkobits/chex
 
 ## Use
 
-Chex exports an async function that accepts a string. That string may be an
-executable name, or an executable name and [valid semver range](https://devhints.io/semver).
-If a name alone is provided, Chex makes sure the executable is installed. If a
-semver range is provided along with a name, Chex ensures that the version of the
-executable satisfies that semver range. Chex then returns an Execa decorator
+Chex exports an async function that accepts a string. That string may be an executable name, or an
+executable name and [valid semver range](https://devhints.io/semver). If a name alone is provided, Chex
+makes sure the executable is installed. If a semver range is provided along with a name, Chex ensures
+that the version of the executable satisfies that semver range. Chex then returns an Execa decorator
 bound to the provided executable.
 
-Let's imagine we are writing a tool that is going to make several calls to the
-`git` CLI, and we know that we need Git version 2.0.0 or greater. We want to
-make this assertion as early as possible in our program so we can present the
-user with a meaningful error before we try to use an unsupported Git feature.
-Let's see how we can accomplish this with Chex:
+Let's imagine we are writing a tool that is going to make several calls to the `git` CLI, and we know
+that we need Git version 2.0.0 or greater. We want to make this assertion as early as possible in our
+program so we can present the user with a meaningful error before we try to use an unsupported Git
+feature. Let's see how we can accomplish this with Chex:
 
 ```ts
 import chex from '@darkobits/chex';
@@ -51,7 +49,7 @@ export default async function main() {
   const sha = await git('status');
 
   // Execa options are passed-though to Execa:
-  const pushResult = await git('push origin master', {stdio: 'inherit'});
+  const pushResult = await git('push origin master', { stdio: 'inherit' });
 
   // You can also do all of the above synchronously:
   const pullResult = git.sync('pull');
@@ -76,8 +74,8 @@ export default async function main() {
 
 **But wait, there's more!**
 
-Chex will also attach `version` and `rawVersion` properties to the value it
-returns, which you can use for debugging/reporting:
+Chex will also attach `version` and `rawVersion` properties to the value it returns, which you can use
+for debugging/reporting:
 
 ```ts
 import chex from '@darkobits/chex';
@@ -95,10 +93,8 @@ export default async function main() {
 
 ## API
 
-Chex is available in asynchronous and synchronous modes. This package's default
-export is the asynchronous function. The synchronous function is available at
-the `.sync` property.
-
+Chex is available in asynchronous and synchronous modes. This package's default export is the
+asynchronous function. The synchronous function is available at the `.sync` property.
 
 ```ts
 interface Chex {
@@ -107,10 +103,9 @@ interface Chex {
 }
 ```
 
-**Note:** Execa options provided to `chex` or `chex.sync` will be used to
-configure the call to locate the executable. Calls to the executable itself may
-be configured by providing an Execa options object to the wrapper returned by
-Chex.
+**Note:** Execa options provided to `chex` or `chex.sync` will be used to configure the call to locate
+the executable. Calls to the executable itself may be configured by providing an Execa options object to
+the wrapper returned by Chex.
 
 `ExecaWrapper` is a function with the following signature and properties:
 
@@ -138,19 +133,16 @@ interface ExecaWrapper {
 }
 ```
 
-**Note:** Both the synchronous and asynchronous versions of Chex return the
-same Execa wrapper, which itself has synchronous and asynchronous modes. It is
-therefore possible to mix and match these call types to fit your application's
-needs.
+**Note:** Both the synchronous and asynchronous versions of Chex return the same Execa wrapper, which
+itself has synchronous and asynchronous modes. It is therefore possible to mix and match these call
+types to fit your application's needs.
 
 ## Caveats
 
-Some tools make the process of determining their version exceedingly difficult.
-If Chex is unable to determine the version of an executable _and_ you provided a
-semver range, Chex will throw an error because it is unable to guarantee that
-the version of the executable satisfies your criteria. For these executables,
-you can omit a version criteria and Chex will still throw if the executable is
-not found.
+Some tools make the process of determining their version exceedingly difficult. If Chex is unable to
+determine the version of an executable _and_ you provided a semver range, Chex will throw an error
+because it is unable to guarantee that the version of the executable satisfies your criteria. For these
+executables, you can omit a version criteria and Chex will still throw if the executable is not found.
 
 <br />
 <a href="#top">
