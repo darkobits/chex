@@ -14,23 +14,28 @@ concurrency:
 jobs:
   ci:
     name: CI
+    # Skip tags. This 1-liner is equivalent to ~10LOC to do the same in `on`.
     if: github.event.ref_type != 'tag'
     runs-on: ubuntu-latest
     steps:
-      - name: Clone
-        uses: actions/checkout@v2
+      - name: Clone Repository
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: Prepare
-        uses: actions/setup-node@v2
+      - name: Dump GitHub Context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+      - name: Setup Node
+        uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
           cache: npm
-      - name: Install
-        run: npm clean-install
-      - name: Build
+      - name: Install Dependencies
+        run: npm clean-install --ignore-scripts
+      - name: Build Project
         run: npx nr build
-      - name: Test
+      - name: Run Tests
         run: |
           npx nr test.coverage
           bash <(curl -s https://codecov.io/bash)
