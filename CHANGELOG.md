@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.4](https://github.com/darkobits/chex/compare/v2.0.3...v2.0.4) (2023-01-16)
+
+
+### 🏗 Chores
+
+* Update ci.yml. ([8b93c7c](https://github.com/darkobits/chex/commit/8b93c7c42726f7597b802f907d080eac4eb508de))
+
 ## [2.0.3](https://github.com/darkobits/chex/compare/v2.0.2...v2.0.3) (2023-01-16)
 
 
