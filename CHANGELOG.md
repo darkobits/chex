@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.3](https://github.com/darkobits/chex/compare/v2.0.2...v2.0.3) (2023-01-16)
+
+
+### 🏗 Chores
+
+* **deps:** Update dependencies. ([f5523a8](https://github.com/darkobits/chex/commit/f5523a875cc5d4f3ab49d23ac68374742fb5a9fa))
+* Update ci.yml. ([2dd8e04](https://github.com/darkobits/chex/commit/2dd8e04be62f81578399bf91df50e8039dd9194a))
+
+
+### 📖 Documentation
+
+* Update README. ([f4b3aee](https://github.com/darkobits/chex/commit/f4b3aee791b6f98d08142238b0928f3cf16fa8a8))
+* Update README. ([fc2f271](https://github.com/darkobits/chex/commit/fc2f2712416f9630f395c858db542fbd271f5432))
+
 ## [2.0.2](https://github.com/darkobits/chex/compare/v2.0.1...v2.0.2) (2022-09-12)
 
 
