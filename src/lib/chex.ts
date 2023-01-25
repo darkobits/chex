@@ -1,8 +1,4 @@
-import {
-  execa,
-  execaCommand,
-  execaCommandSync,
-  execaSync,
+import execa, {
   type ExecaChildProcess,
   type ExecaSyncReturnValue,
   type Options,
@@ -87,7 +83,7 @@ function chexCommon(name: string, versionRange: string, version: string, rawVers
 
   const execaWrapper = (commandStringOrArgumentsArray: string | ReadonlyArray<string>, execaOpts?: Options) => {
     if (typeof commandStringOrArgumentsArray === 'string') {
-      return execaCommand(`${name} ${commandStringOrArgumentsArray}`, execaOpts);
+      return execa.command(`${name} ${commandStringOrArgumentsArray}`, execaOpts);
     }
 
     return execa(name, commandStringOrArgumentsArray, execaOpts);
@@ -95,10 +91,10 @@ function chexCommon(name: string, versionRange: string, version: string, rawVers
 
   execaWrapper.sync = (commandStringOrArgumentsArray: string | ReadonlyArray<string>, execaOpts?: SyncOptions) => {
     if (typeof commandStringOrArgumentsArray === 'string') {
-      return execaCommandSync(`${name} ${commandStringOrArgumentsArray}`, execaOpts);
+      return execa.commandSync(`${name} ${commandStringOrArgumentsArray}`, execaOpts);
     }
 
-    return execaSync(name, commandStringOrArgumentsArray, execaOpts);
+    return execa.sync(name, commandStringOrArgumentsArray, execaOpts);
   };
 
   // Attach the resolved executable version to the Execa wrapper.

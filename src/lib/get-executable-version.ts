@@ -1,6 +1,4 @@
-import {
-  execa,
-  execaSync,
+import execa, {
   type ExecaReturnBase,
   type Options,
   type SyncOptions
@@ -101,7 +99,7 @@ async function getExecutableVersion(name: string, execaOpts?: Options) {
 getExecutableVersion.sync = (name: string, execaOpts?: SyncOptions) => {
   for (const flag of versionFlags) {
     try {
-      const version = parseVersionResult(execaSync(normalizeName(name), [flag], execaOpts));
+      const version = parseVersionResult(execa.sync(normalizeName(name), [flag], execaOpts));
 
       if (version) {
         return version;

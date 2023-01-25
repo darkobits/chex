@@ -16,7 +16,7 @@
     "prepare": "nr prepare"
   },
   "dependencies": {
-    "execa": "^6.1.0",
+    "execa": "~5.1.1",
     "find-versions": "^5.1.0",
     "semver": "^7.3.8"
   },
