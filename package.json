@@ -1,6 +1,6 @@
 {
   "name": "@darkobits/chex",
-  "version": "2.0.6",
+  "version": "2.0.7",
   "description": "Check that an executable is installed and verify its version.",
   "author": "darkobits",
   "license": "WTFPL",
