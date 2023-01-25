@@ -4,7 +4,6 @@
 <p align="center">
   <a href="https://www.npmjs.com/package/@darkobits/chex"><img src="https://img.shields.io/npm/v/@darkobits/chex.svg?style=flat-square"></a>
   <a href="https://github.com/darkobits/chex/actions?query=workflow%3Aci"><img src="https://img.shields.io/github/actions/workflow/status/darkobits/chex/ci.yml?style=flat-square"></a>
-  <a href="https://app.codecov.io/gh/darkobits/chex/branch/master"><img src="https://img.shields.io/codecov/c/github/darkobits/chex/master?style=flat-square"></a>
   <a href="https://depfu.com/github/darkobits/chex"><img src="https://img.shields.io/depfu/darkobits/chex?style=flat-square"></a>
   <a href="https://conventionalcommits.org"><img src="https://img.shields.io/static/v1?label=commits&message=conventional&style=flat-square&color=398AFB"></a>
 </p>

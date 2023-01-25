@@ -4,7 +4,6 @@
   "description": "Check that an executable is installed and verify its version.",
   "author": "darkobits",
   "license": "WTFPL",
-  "type": "module",
   "repository": {
     "type": "git",
     "url": "https://github.com/darkobits/chex.git"
@@ -22,8 +21,8 @@
     "semver": "^7.3.8"
   },
   "devDependencies": {
-    "@darkobits/eslint-plugin": "^0.2.9",
-    "@darkobits/ts": "^0.13.0-beta.0",
+    "@darkobits/eslint-plugin": "^0.2.10",
+    "@darkobits/ts": "^0.13.3",
     "@types/semver": "^7.3.13",
     "@types/uuid": "^9.0.0",
     "uuid": "^9.0.0"
