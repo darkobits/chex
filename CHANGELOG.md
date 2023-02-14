@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.8](https://github.com/darkobits/chex/compare/v2.0.7...v2.0.8) (2023-02-14)
+
+
+### 🛠 Refactoring
+
+* Build with Vite. ([c8bcf81](https://github.com/darkobits/chex/commit/c8bcf810162f3f07343ae9d3e74937bb341ce3b2))
+
 ## [2.0.7](https://github.com/darkobits/chex/compare/v2.0.6...v2.0.7) (2023-01-25)
 
 
