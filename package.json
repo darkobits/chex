@@ -21,8 +21,8 @@
     "semver": "^7.3.8"
   },
   "devDependencies": {
-    "@darkobits/eslint-plugin": "^0.2.10",
-    "@darkobits/ts": "^0.13.3",
+    "@darkobits/eslint-plugin": "^0.3.2",
+    "@darkobits/ts": "~0.14.0",
     "@types/semver": "^7.3.13",
     "@types/uuid": "^9.0.0",
     "uuid": "^9.0.0"

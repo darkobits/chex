@@ -1,3 +1,4 @@
 module.exports = {
-  extends: 'plugin:@darkobits/ts'
+  extends: 'plugin:@darkobits/ts',
+  ignorePatterns: ['fixtures/**']
 };
