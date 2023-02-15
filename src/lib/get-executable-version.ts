@@ -7,6 +7,9 @@ import findVersions from 'find-versions';
 import semver from 'semver';
 
 
+import { ExecutableNotFoundError } from 'lib/errors';
+
+
 /**
  * Supported flags.
  */
@@ -62,11 +65,13 @@ function parseVersionResult(result: ExecaReturnBase<string>) {
 function handleError(name: string, err: any) {
   // Executable does not exist or is otherwise not installed correctly.
   if (err && err.errno === 'ENOENT') {
-    throw new Error(`Executable "${name}" could not be found.`);
+    throw new ExecutableNotFoundError(`Executable "${name}" could not be found.`, {
+      cause: err
+    });
   }
 
-  // For any other error, we can assume the version flag is not supported,
-  // so we can recover.
+  // For any other error, we can assume the particular version flag we are
+  // trying is not supported, so we can recover.
 }
 
 
@@ -81,9 +86,7 @@ async function getExecutableVersion(name: string, execaOpts?: Options) {
     try {
       const version = parseVersionResult(await execa(normalizeName(name), [flag], execaOpts));
 
-      if (version) {
-        return version;
-      }
+      if (version) return version;
     } catch (err) {
       handleError(name, err);
     }

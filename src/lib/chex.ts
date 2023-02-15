@@ -6,6 +6,11 @@ import execa, {
 } from 'execa';
 import semver from 'semver';
 
+import {
+  VersionInvalidError,
+  VersionNotSatisfiedError,
+  VersionUnavailableError
+} from 'lib/errors';
 import getExecutableVersion from 'lib/get-executable-version';
 
 
@@ -21,15 +26,15 @@ function parseDependencyExpression(versionExpression: string) {
   if (versionRange) {
     if (semver.validRange(versionRange)) {
       // Valid range provided.
-      return {name, versionRange};
+      return { name, versionRange };
     }
 
     // Invalid range provided.
-    throw new Error(`Invalid semver range: ${versionRange}`);
+    throw new VersionInvalidError(`Invalid semver range for "${name}": ${versionRange}`);
   }
 
   // No range provided.
-  return {name, versionRange: ''};
+  return { name, versionRange: '' };
 }
 
 
@@ -66,19 +71,19 @@ function chexCommon(name: string, versionRange: string, version: string, rawVers
   // If the user supplied a version range and we couldn't determine the version
   // of the executable, throw.
   if (versionRange && version === 'unknown') {
-    throw new Error(`Unable to determine version of "${name}"`);
+    throw new VersionUnavailableError(`Unable to determine version of "${name}"`);
   }
 
   // If the user supplied a version range but the executable returned an invalid
   // semver version, throw.
   if (versionRange && !semver.valid(version)) {
-    throw new Error(`Version "${version}" of "${name}" is not a valid semver version.`);
+    throw new VersionInvalidError(`Version "${version}" of "${name}" is not a valid semver version.`);
   }
 
   // If the user supplied a version range and the executable's version does not
   // satisfy it, throw.
   if (versionRange && !semver.satisfies(version, versionRange)) {
-    throw new Error(`Version "${version}" of "${name}" does not satisfy criteria "${versionRange}".`);
+    throw new VersionNotSatisfiedError(`Version "${version}" of "${name}" does not satisfy criteria "${versionRange}".`);
   }
 
   const execaWrapper = (commandStringOrArgumentsArray: string | ReadonlyArray<string>, execaOpts?: Options) => {
@@ -110,10 +115,10 @@ function chexCommon(name: string, versionRange: string, version: string, rawVers
  */
 const chex = async (dependencyExpression: string, execaOpts?: Options): Promise<ExecaWrapper> => {
   // Parse input.
-  const {name, versionRange} = parseDependencyExpression(dependencyExpression);
+  const { name, versionRange } = parseDependencyExpression(dependencyExpression);
 
   // Get version, throw if executable is not found.
-  const {version, rawVersion} = await getExecutableVersion(name, execaOpts);
+  const { version, rawVersion } = await getExecutableVersion(name, execaOpts);
 
   // Return Execa wrapper, throw if version is not satisfied.
   return chexCommon(name, versionRange, version, rawVersion);
@@ -125,10 +130,10 @@ const chex = async (dependencyExpression: string, execaOpts?: Options): Promise<
  */
 chex.sync = (dependencyExpression: string, execaOpts?: SyncOptions): ExecaWrapper => {
   // Parse input.
-  const {name, versionRange} = parseDependencyExpression(dependencyExpression);
+  const { name, versionRange } = parseDependencyExpression(dependencyExpression);
 
   // Get version, throw if executable is not found.
-  const {version, rawVersion} = getExecutableVersion.sync(name, execaOpts);
+  const { version, rawVersion } = getExecutableVersion.sync(name, execaOpts);
 
   // Return Execa wrapper, throw if version is not satisfied.
   return chexCommon(name, versionRange, version, rawVersion);
