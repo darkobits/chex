@@ -25,7 +25,7 @@ $ npm install @darkobits/chex
 Chex exports an async function that accepts a string. That string may be an executable name, or an
 executable name and [valid semver range](https://devhints.io/semver). If a name alone is provided, Chex
 makes sure the executable is installed. If a semver range is provided along with a name, Chex ensures
-that the version of the executable satisfies that semver range. Chex then returns an Execa decorator
+that the version of the executable satisfies that semver range. Chex then returns an Execa wrapper
 bound to the provided executable.
 
 Let's imagine we are writing a tool that is going to make several calls to the `git` CLI, and we know
@@ -136,12 +136,139 @@ interface ExecaWrapper {
 itself has synchronous and asynchronous modes. It is therefore possible to mix and match these call
 types to fit your application's needs.
 
-## Caveats
+## Error Handling
 
-Some tools make the process of determining their version exceedingly difficult. If Chex is unable to
-determine the version of an executable _and_ you provided a semver range, Chex will throw an error
-because it is unable to guarantee that the version of the executable satisfies your criteria. For these
-executables, you can omit a version criteria and Chex will still throw if the executable is not found.
+Chex has a set of custom sub-classed Error types that make it easier to programmatically determine what
+kind of error was thrown. You can either perform `instanceof` checks against errors thrown by Chex, or
+check the `code` property of errors, which will be a string in the standard Node error code format.
+
+All of these errors will be thrown by the initial call to Chex. If a bound Execa instance is
+successfully created, they will throw [Execa errors](https://github.com/sindresorhus/execa#handling-errors),
+which also contain a number of special properties to aid in error-handling.
+
+**Case: Executable Not Found**
+
+Thrown if the specified executable was not found on the user's system, either because it is not
+installed or not readable/executable due to permissions errors, Chex will throw an
+`ExecutableNotFoundError`.
+
+The error's `cause` property will contain the original error thrown by Execa.
+
+```ts
+import chex, { ExecutableNotFoundError } from '@darkobits/chex';
+
+try {
+  const git = await chex('git');
+} catch (err) {
+  err instanceof ExecutableNotFoundError // true
+  err.code === ExecutableNotFoundError.code // true
+
+  /**
+   * {
+   *   name: 'ExecutableNotFoundError',
+   *   code: 'ERR_EXECUTABLE_NOT_FOUND';
+   *   message: string;
+   *   cause: Error;
+   * }
+   */
+}
+```
+
+**Case: Version Unavailable**
+
+Thrown when a semver range was provided to Chex and the executable was found, but Chex was unable to
+determine its version.
+
+Chex attempts to call executables with the `-v`, `--version`, and `version` arguments. These arguments
+are a standard way for a CLI to indicate its version, but it is entirely possible that an application
+doesn't support any of them.
+
+```ts
+import chex, { VersionUnavailableError } from '@darkobits/chex';
+
+try {
+  const foo = await chex('foo >=2.0.0');
+} catch (err) {
+  err instanceof VersionUnavailableError // true
+  err.code === VersionUnavailableError.code // true
+
+  /**
+   * {
+   *   name: 'VersionUnavailableError',
+   *   code: 'ERR_VERSION_UNAVAILABLE';
+   *   message: string;
+   * }
+   */
+}
+```
+
+**Case: Version Invalid**
+
+Thrown when:
+- A semver range was provided to Chex, but it was not a valid semver expression.
+- A semver range was provided to Chex, but the version provided by the executable is not a valid semver
+   version.
+
+```ts
+import chex, { VersionInvalidError } from '@darkobits/chex';
+
+try {
+  const foo = await chex('foo >=1.0.kittens');
+} catch (err) {
+  err instanceof VersionInvalidError // true
+  err.code === VersionInvalidError.code // true
+
+  /**
+   * {
+   *   name: 'VersionInvalidError',
+   *   code: 'ERR_VERSION_INVALID';
+   *   message: string;
+   * }
+   */
+}
+
+try {
+  // Let's assume foo returns something like 'build-2018.04.12', which is not a
+  // valid semver range.
+  const foo = await chex('foo >=1.0.0');
+} catch (err) {
+  err instanceof VersionInvalidError // true
+  err.code === VersionInvalidError.code // true
+
+  /**
+   * {
+   *   name: 'VersionInvalidError',
+   *   code: 'ERR_VERSION_INVALID';
+   *   message: string;
+   * }
+   */
+}
+```
+
+**Case: Version Not Satisfied**
+
+Thrown when a semver range was provided to Chex and the executable provided a valid semver version, but
+it did not satisfy the semver range required.
+
+```ts
+import chex, { VersionNotSatisfiedError } from '@darkobits/chex';
+
+try {
+  // Let's assume "foo -v" returned "18.5.1".
+  const foo = await chex('foo >=19.0.3');
+} catch (err) {
+  err instanceof VersionNotSatisfiedError // true
+  err.code === VersionNotSatisfiedError.code // true
+
+  /**
+   * {
+   *   name: 'VersionNotSatisfiedError',
+   *   code: 'ERR_VERSION_NOT_SATISFIED';
+   *   message: string;
+   * }
+   */
+}
+```
 
 <br />
 <a href="#top">
