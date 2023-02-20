@@ -22,7 +22,7 @@
   },
   "devDependencies": {
     "@darkobits/eslint-plugin": "^0.3.2",
-    "@darkobits/ts": "~0.14.0",
+    "@darkobits/ts": "~0.14.5",
     "@types/semver": "^7.3.13",
     "@types/uuid": "^9.0.0",
     "uuid": "^9.0.0"
